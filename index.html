@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin: 20px 0;
+        }
+        .sudoku-container {
+            display: inline-block;
+            margin-top: 20px;
+            border: 3px solid black;
+        }
+        .row {
+            display: flex;
+        }
+        .cell {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #888;
+            text-align: center;
+            line-height: 40px;
+            font-size: 18px;
+            background-color: #fff;
+        }
+        .cell:nth-child(3n) {
+            border-right: 3px solid black;
+        }
+        .row:nth-child(3n) .cell {
+            border-bottom: 3px solid black;
+        }
+        .cell input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            text-align: center;
+            font-size: 18px;
+            background: none;
+            outline: none;
+        }
+        .cell input[readonly] {
+            background-color: #ddd;
+            color: #000;
+            font-weight: bold;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        select, button {
+            font-size: 16px;
+            padding: 5px 10px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sudoku</h1>
+    <div class="controls">
+        <label for="difficulty">Selecciona dificultad:</label>
+        <select id="difficulty">
+            <option value="easy">Fácil</option>
+            <option value="medium">Medio</option>
+            <option value="hard">Difícil</option>
+        </select>
+        <button onclick="generateSudoku()">Generar Sudoku</button>
+    </div>
+    <div class="sudoku-container" id="sudoku-grid">
+        <!-- La cuadrícula del sudoku se generará aquí -->
+    </div>
+
+    <script>
+        const easySudoku = [
+            [5, 3, '', '', 7, '', '', '', ''],
+            [6, '', '', 1, 9, 5, '', '', ''],
+            ['', 9, 8, '', '', '', '', 6, ''],
+            [8, '', '', '', 6, '', '', '', 3],
+            [4, '', '', 8, '', 3, '', '', 1],
+            [7, '', '', '', 2, '', '', '', 6],
+            ['', 6, '', '', '', '', 2, 8, ''],
+            ['', '', '', 4, 1, 9, '', '', 5],
+            ['', '', '', '', 8, '', '', 7, 9]
+        ];
+
+        const mediumSudoku = [
+            // Añadir una matriz inicial para dificultad media
+        ];
+
+        const hardSudoku = [
+            // Añadir una matriz inicial para dificultad difícil
+        ];
+
+        function generateSudoku() {
+            const difficulty = document.getElementById("difficulty").value;
+            let sudoku;
+            if (difficulty === "easy") sudoku = easySudoku;
+            else if (difficulty === "medium") sudoku = mediumSudoku;
+            else if (difficulty === "hard") sudoku = hardSudoku;
+
+            const sudokuGrid = document.getElementById("sudoku-grid");
+            sudokuGrid.innerHTML = ''; // Limpiar la cuadrícula existente
+
+            for (let row = 0; row < 9; row++) {
+                const rowDiv = document.createElement("div");
+                rowDiv.className = "row";
+
+                for (let col = 0; col < 9; col++) {
+                    const cellDiv = document.createElement("div");
+                    cellDiv.className = "cell";
+
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.maxLength = 1;
+
+                    if (sudoku[row][col] !== '') {
+                        input.value = sudoku[row][col];
+                        input.readOnly = true;
+                    }
+
+                    cellDiv.appendChild(input);
+                    rowDiv.appendChild(cellDiv);
+                }
+                sudokuGrid.appendChild(rowDiv);
+            }
+        }
+
+        // Generar un sudoku fácil al cargar la página
+        window.onload = generateSudoku;
+    </script>
+</body>
+</html>
